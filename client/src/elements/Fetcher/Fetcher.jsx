@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import './Fetcher.scss';
 
-function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore }) {
+function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }) {
   const [isFetching, setIsFetching] = useState(false);
 
   const onScroll = useCallback(() => {
@@ -32,7 +32,14 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore }) {
 
   return <div className="fetcher">
     {
-      isFetching ? loading || <div>Loading</div> : null
+      isFetching ? loading || <div>Loading more ...</div> : null
+    }
+    {
+      !shouldFetchMore && <div>
+        {
+          stopBanner || "~ end of catalogue ~"
+        }
+      </div>
     }
   </div>;
 }

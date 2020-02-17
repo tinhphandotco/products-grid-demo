@@ -6,15 +6,29 @@ import Product from "./Product";
 import "./ProductsGrid.scss";
 
 export default function ProductsGrid() {
-  const [products, setProducts] = useState(Array(30).fill(1));
+  const [products, setProducts] = useState(
+    Array(30).fill({
+      id: "14198-3ncn8vpg4tw",
+      size: 32,
+      price: 965,
+      face: "(ง •̀_•́)ง",
+      date: "Sun Feb 16 2020 14:06:09 GMT+0700 (Indochina Time)"
+    })
+  );
 
   const onFetchMore = useCallback(
     done => {
       setTimeout(() => {
         setProducts([
           ...products,
-          ...Array(30).fill(2)
-        ])
+          ...Array(30).fill({
+            id: "14198-3ncn8vpg4tw",
+            size: 32,
+            price: 965,
+            face: "(ง •̀_•́)ง",
+            date: "Sun Feb 16 2020 14:06:09 GMT+0700 (Indochina Time)"
+          })
+        ]);
         done();
       }, 3000);
     },
@@ -23,8 +37,8 @@ export default function ProductsGrid() {
 
   return (
     <div className="products-grid" id="products-grid">
-      {products.map((_, index) => (
-        <Product key={index} />
+      {products.map((product, index) => (
+        <Product key={index} product={product} />
       ))}
       <Fetcher
         shouldFetchMore={products.length < 100}
