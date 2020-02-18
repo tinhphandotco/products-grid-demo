@@ -1,16 +1,13 @@
 import React from 'react';
 
-import {
-  ProductsHeader,
-  ProductsGrid
-} from './components';
+// modules
+import ProductsGrid from 'modules/ProductsGrid'
 
 import './HomePage.scss';
 
 function App() {
   return (
     <div className="App">
-      <ProductsHeader />
       <ProductsGrid />
     </div>
   );

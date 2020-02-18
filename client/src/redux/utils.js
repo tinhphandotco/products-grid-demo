@@ -13,6 +13,16 @@ export const createRequestPending = (action) => ({ type: actionPending(action) }
 export const createRequestSuccess = (action, payload) => ({ type: actionSuccess(action), payload });
 export const createRequestFailure = (action, errors) => ({ type: actionFailure(action), payload: errors });
 
+export const createReducer = (initialState, handlers) => {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action)
+    } else {
+      return state
+    }
+  }
+}
+
 export const requestAction = (
   action,
   apiCall,

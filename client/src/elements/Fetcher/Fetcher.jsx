@@ -5,6 +5,13 @@ import './Fetcher.scss';
 function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }) {
   const [isFetching, setIsFetching] = useState(false);
 
+  const onFetching = useCallback(() => {
+    setIsFetching(true);
+    onFetchMore(() => {
+      setIsFetching(false)
+    })
+  }, [onFetchMore])
+
   const onScroll = useCallback(() => {
     const el = document.getElementById(parentId);
     const isTouchBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 1;
@@ -12,14 +19,7 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
     if (isTouchBottom && isFetching === false && shouldFetchMore) {
       onFetching();
     }
-  }, [isFetching, shouldFetchMore]);
-
-  const onFetching = useCallback(() => {
-    setIsFetching(true);
-    onFetchMore(() => {
-      setIsFetching(false)
-    })
-  }, [onFetchMore])
+  }, [isFetching, shouldFetchMore, onFetching, parentId]);
 
   useEffect(() => {
     const el = document.getElementById(parentId);
@@ -28,7 +28,7 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
     return () => {
       el.removeEventListener("scroll", onScroll);
     };
-  }, [onScroll]);
+  }, [onScroll, parentId]);
 
   return <div className="fetcher">
     {
@@ -44,4 +44,4 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
   </div>;
 }
 
-export default Fetcher;
+export default React.memo(Fetcher);
