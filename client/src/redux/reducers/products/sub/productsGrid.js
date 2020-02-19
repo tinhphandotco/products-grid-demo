@@ -1,6 +1,6 @@
-import { mergeDeep, fromJS } from 'immutable';
+import { List } from 'immutable';
 import { actionPending, actionFailure, actionSuccess } from 'redux/utils'
-import { FETCH_PRODUCTS, UPDATE_META } from '../types';
+import { FETCH_PRODUCTS, UPDATE_META, CLEAN_PRODUCTS } from '../types';
 
 export default function (state, action) {
   switch (action.type) {
@@ -23,6 +23,10 @@ export default function (state, action) {
 
     case UPDATE_META: {
       return state.setIn(['meta'], action.payload)
+    }
+
+    case CLEAN_PRODUCTS: {
+      return state.setIn(['result'], List())
     }
 
     default: return state;

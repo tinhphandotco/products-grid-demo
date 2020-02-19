@@ -6,23 +6,8 @@ import { entities, productsGrid } from './sub';
 // products
 const initState = fromJS({
   entities: {
-    byId: {
-      '1': {
-        id: "1",
-        size: 32,
-        price: 965,
-        face: "(ง •̀_•́)ง",
-        date: "Sun Feb 16 2020 14:06:09 GMT+0700 (Indochina Time)"
-      },
-      '2': {
-        id: "2",
-        size: 16,
-        price: 965,
-        face: "(ง •̀_•́)ง",
-        date: "Sun Feb 18 2020 14:06:09 GMT+0700 (Indochina Time)"
-      }
-    },
-    allIds: [1, 2]
+    byId: {},
+    allIds: []
   },
   productsGrid: {
     meta: {
