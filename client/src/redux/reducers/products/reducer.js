@@ -28,7 +28,7 @@ const initState = fromJS({
     meta: {
       page: 1,
       limit: 16,
-      sort: null,
+      sort: 'id',
       isLastPage: false
     },
     isFetching: false,

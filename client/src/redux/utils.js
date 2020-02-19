@@ -33,10 +33,12 @@ export const requestAction = (
   dispatch(createRequestPending(action));
 
   return apiCall(params).then(res => {
-    dispatch(createRequestSuccess(action, normalizePayload(res)));
-    return Promise.resolve(normalizePayload(res));
+    const payload = normalizePayload(res);
+    dispatch(createRequestSuccess(action, payload));
+    return Promise.resolve(payload);
   }).catch(err => {
-    dispatch(createRequestFailure(action, normalizeError(err)));
-    return Promise.reject(normalizeError(err));
+    const errors = normalizeError(err);
+    dispatch(createRequestFailure(action, errors));
+    return Promise.reject(errors);
   });
 };

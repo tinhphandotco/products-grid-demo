@@ -1,3 +1,4 @@
+import { mergeDeep, fromJS } from 'immutable';
 import { actionPending, actionFailure, actionSuccess } from 'redux/utils'
 import { FETCH_PRODUCTS, UPDATE_META } from '../types';
 
@@ -9,7 +10,9 @@ export default function (state, action) {
 
     case actionSuccess(FETCH_PRODUCTS): {
       state = state.setIn(['isFetching'], false)
-      state = state.setIn(['result'], action.payload.result)
+      state = state.updateIn(['result'], result => {
+        return result.concat(action.payload.result);
+      })
       state = state.setIn(['meta', 'isLastPage'], action.payload.result.length === 0)
       return state;
     }

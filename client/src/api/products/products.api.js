@@ -9,8 +9,9 @@ const defaultMeta = {
 }
 export const getProducts = ({
   page,
-  limit
+  limit,
+  sort
 } = defaultMeta) => {
-  return request().get(`/products?_page=${page}&_limit=${limit}`)
+  return request().get(`/products?_page=${page}&_limit=${limit}&_sort=${sort}`)
     .then(res => res.data)
 }

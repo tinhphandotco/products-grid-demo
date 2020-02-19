@@ -8,7 +8,9 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
   const onFetching = useCallback(() => {
     setIsFetching(true);
     onFetchMore(() => {
-      setIsFetching(false)
+      setTimeout(() => {
+        setIsFetching(false)
+      }, 500);
     })
   }, [onFetchMore])
 

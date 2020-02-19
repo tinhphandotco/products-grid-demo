@@ -3,9 +3,12 @@ import { connect, useDispatch } from "react-redux";
 import { compose } from "redux";
 
 import { getProductsGridSelector } from "redux/reducers/products/selectors";
-import { updateProductsGridMeta } from "redux/reducers/products/actions";
+import { fetchProduct, updateProductsGridMeta } from "redux/reducers/products/actions";
 
-import Fetcher from "elements/Fetcher";
+import {
+  Fetcher,
+  Spinner
+} from "elements";
 import Product from "./Product";
 
 // HOC
@@ -17,25 +20,31 @@ function ProductsGrid({ meta, products, entities, ...props }) {
   const dispatch = useDispatch();
 
   const onFetchMore = useCallback(done => {
+    const newMeta = {
+      ...meta,
+      page: meta.page + 1
+    };
     dispatch(
-      updateProductsGridMeta({
-        ...meta,
-        page: meta.page + 1
-      })
+      updateProductsGridMeta(newMeta)
     )
+    dispatch(fetchProduct(newMeta))
+      .then(() => {
+        done();
+      })
   }, [dispatch, meta]);
 
   return (
     <div className="products-grid" id="products-grid">
       {
-        props.isFetching && <div>
-          ...
+        props.isFetching && products.length === 0 && <div>
+          <Spinner />
         </div>
       }
       {products.map((product, index) => (
         <Product key={index} product={product} />
       ))}
       <Fetcher
+        loading={<Spinner />}
         shouldFetchMore={!meta.isLastPage}
         parentId={"products-grid"}
         onFetchMore={onFetchMore}
@@ -46,18 +55,10 @@ function ProductsGrid({ meta, products, entities, ...props }) {
 
 const mapStateToProps = store => {
   return {
-    // products: store.products.productsGrid
-    //   .get("result")
-    //   .map(id => store.products.entities.getIn(['byId', id + ''])),
     isFetching: store.products.productsGrid.get('isFetching'),
     products: getProductsGridSelector(store),
     meta: store.products.productsGrid.get("meta")
-    // entities: store.products
   };
-  // return {
-  //   meta: store.products.productsGrid.meta,
-  //   products: store.products.productsGrid.result.map(id => store.products.entities.byId[id]),
-  // }
 };
 
 const mapDispatchToProps = {};

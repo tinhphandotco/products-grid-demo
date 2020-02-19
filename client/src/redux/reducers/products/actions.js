@@ -12,7 +12,13 @@ export const fetchProduct = (meta) => {
     FETCH_PRODUCTS,
     ProductsAPI.getProducts,
     res => { // normalizePayload
-      return normalize(res, productsSchema);
+      const data = normalize(res, productsSchema);
+      return {
+        entities: {
+          products: data.entities.products || []
+        },
+        result: data.result || []
+      }
     }
   )(meta);
 }

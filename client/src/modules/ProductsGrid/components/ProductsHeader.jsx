@@ -2,10 +2,10 @@ import React from 'react';
 
 import './ProductsHeader.scss'
 
-export default function ProductsHeader() {
+function ProductsHeader({ totalProducts }) {
   return (
     <div className="products-grid-header">
-      <div className="total">16 Product(s) found.</div>
+      <div className="total">{totalProducts} Product(s) found.</div>
       <div className="sort">
         <span>Order by</span>
         <select name="" id="">
@@ -17,3 +17,5 @@ export default function ProductsHeader() {
     </div>
   )
 }
+
+export default React.memo(ProductsHeader);
