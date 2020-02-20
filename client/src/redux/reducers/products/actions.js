@@ -2,7 +2,7 @@ import { normalize, schema } from 'normalizr'
 
 import ProductsAPI from 'api/products';
 import { requestAction } from 'redux/utils';
-import { FETCH_PRODUCTS, UPDATE_META, CLEAN_PRODUCTS } from './types';
+import { FETCH_PRODUCTS, UPDATE_META, CLEAN_PRODUCTS, CHANGE_ADS } from './types';
 
 const productSchema = new schema.Entity('products')
 const productsSchema = new schema.Array(productSchema)
@@ -30,4 +30,9 @@ export const updateProductsGridMeta = meta => ({
 
 export const cleanProducts = () => ({
   type: CLEAN_PRODUCTS
+})
+
+export const changeAds = () => ({
+  type: CHANGE_ADS,
+  payload: Math.floor(Math.random()*1000)
 })

@@ -3,7 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import { compose } from "redux";
 
 import { getProductsGridSelector } from "redux/reducers/products/selectors";
-import { fetchProduct, updateProductsGridMeta } from "redux/reducers/products/actions";
+import { fetchProduct, updateProductsGridMeta, changeAds} from "redux/reducers/products/actions";
 
 import {
   Fetcher,
@@ -29,6 +29,7 @@ function ProductsGrid({ meta, products, entities, ...props }) {
     )
     dispatch(fetchProduct(newMeta))
       .then(() => {
+        dispatch(changeAds())
         done();
       })
   }, [dispatch, meta]);
