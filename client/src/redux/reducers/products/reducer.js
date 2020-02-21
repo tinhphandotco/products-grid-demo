@@ -12,13 +12,12 @@ const initState = fromJS({
   productsGrid: {
     meta: {
       page: 1,
-      limit: 20,
+      limit: 16,
       sort: 'id',
       isLastPage: false
     },
     isFetching: false,
-    result: [],
-    adsRandom: Math.floor(Math.random()*1000)
+    result: []
   },
 });
 

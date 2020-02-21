@@ -13,8 +13,8 @@ function Header({ adsRandom }) {
         to purchase. Be sure to peruse our selection of ascii faces in an
         exciting range of sizes and prices.
       </p>
-      <p>But first, a word from our sponsors:</p>{" "}
-      <img className="ad" src={`${SERVER_URL}/ads/?r=${adsRandom}`} />
+      {/* <p>But first, a word from our sponsors:</p>{" "}
+      <img className="ad" src={`${SERVER_URL}/ads/?r=${adsRandom}`} /> */}
     </header>
   );
 }

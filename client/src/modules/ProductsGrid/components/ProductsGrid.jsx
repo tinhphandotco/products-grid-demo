@@ -1,15 +1,16 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
 import { compose } from "redux";
 
 import { getProductsGridSelector } from "redux/reducers/products/selectors";
-import { fetchProduct, updateProductsGridMeta, changeAds} from "redux/reducers/products/actions";
+import { fetchProduct, updateProductsGridMeta } from "redux/reducers/products/actions";
 
 import {
   Fetcher,
   Spinner
 } from "elements";
 import Product from "./Product";
+import Ad from './Ad';
 
 // HOC
 import { withToJS } from "HOC";
@@ -18,6 +19,10 @@ import "./ProductsGrid.scss";
 
 function ProductsGrid({ meta, products, entities, ...props }) {
   const dispatch = useDispatch();
+  const prevR = useRef({
+    r: null,
+    indexs: []
+  });
 
   const onFetchMore = useCallback(done => {
     const newMeta = {
@@ -29,10 +34,24 @@ function ProductsGrid({ meta, products, entities, ...props }) {
     )
     dispatch(fetchProduct(newMeta))
       .then(() => {
-        dispatch(changeAds())
         done();
       })
   }, [dispatch, meta]);
+
+  const getAd = useCallback((index) => {
+    if (prevR.current.indexs.indexOf(index) > -1) return null;
+    let r = null;
+    const loop = () => {
+      r = parseInt(Math.floor(Math.random()*1000), 10) % 10;
+      if (prevR.current.r === r) {
+        loop();
+      }
+    }
+    loop();
+    prevR.current.r = r;
+    prevR.current.indexs.push(index)
+    return r;
+  }, [prevR])
 
   return (
     <div className="products-grid" id="products-grid">
@@ -42,7 +61,12 @@ function ProductsGrid({ meta, products, entities, ...props }) {
         </div>
       }
       {products.map((product, index) => (
-        <Product key={index} product={product} />
+        <React.Fragment key={product.id}>
+          <Product key={index} product={product} />
+          {
+            (index + 1) % 20 === 0 && index > 0 ? <Ad index={index} r={getAd(index)} /> : null
+          }
+        </React.Fragment>
       ))}
       <Fetcher
         loading={<Spinner />}

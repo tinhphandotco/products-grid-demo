@@ -31,8 +31,3 @@ export const updateProductsGridMeta = meta => ({
 export const cleanProducts = () => ({
   type: CLEAN_PRODUCTS
 })
-
-export const changeAds = () => ({
-  type: CHANGE_ADS,
-  payload: Math.floor(Math.random()*1000)
-})
