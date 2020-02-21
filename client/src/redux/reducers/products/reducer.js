@@ -3,6 +3,14 @@ import { fromJS } from 'immutable';
 
 import { entities, productsGrid } from './sub';
 
+const getLimit = () => {
+  if (window.innerHeight > 1000) {
+    return 32;
+  } else {
+    return 16;
+  }
+}
+
 // products
 const initState = fromJS({
   entities: {
@@ -12,7 +20,7 @@ const initState = fromJS({
   productsGrid: {
     meta: {
       page: 1,
-      limit: 16,
+      limit: getLimit(),
       sort: 'id',
       isLastPage: false
     },

@@ -82,7 +82,7 @@ function ProductsGrid({ meta, products, entities, ...props }) {
       <Fetcher
         loading={<Spinner />}
         shouldFetchMore={!meta.isLastPage}
-        parentId={"products-grid"}
+        parentId={"window"}
         onFetchMore={onFetchMore}
       />
     </div>

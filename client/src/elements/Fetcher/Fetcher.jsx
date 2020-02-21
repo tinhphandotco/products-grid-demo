@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 import './Fetcher.scss';
 
@@ -15,16 +15,21 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
   }, [onFetchMore])
 
   const onScroll = useCallback(() => {
-    const el = document.getElementById(parentId);
-    const isTouchBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 1;
+    const el = parentId === "window" ? window : document.getElementById(parentId);
+    let isTouchBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 1;
 
-    if (isTouchBottom && isFetching === false && shouldFetchMore && el.scrollTop > 0) {
+    if (parentId === "window") {
+      isTouchBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+    }
+
+    if (isTouchBottom && isFetching === false && shouldFetchMore && (parentId === "window" ? el.scrollY : el.scrollTop) > 0) {
       onFetching();
     }
   }, [isFetching, shouldFetchMore, onFetching, parentId]);
 
   useEffect(() => {
-    const el = document.getElementById(parentId);
+    const el = parentId === "window" ? window : document.getElementById(parentId);
+
     el.addEventListener("scroll", onScroll);
 
     return () => {
