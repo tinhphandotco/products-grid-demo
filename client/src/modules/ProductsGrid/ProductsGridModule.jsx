@@ -18,7 +18,7 @@ function ProductsGridModule({ meta, total }) {
 
   useEffect(() => {
     dispatch(fetchProduct(metaInit.current));
-  }, [dispatch, metaInit]);
+  }, []);
 
   const handleChangeSortType = useCallback(sort => {
     const newMeta = {

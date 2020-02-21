@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { compose } from "redux";
 
@@ -20,9 +20,20 @@ import "./ProductsGrid.scss";
 function ProductsGrid({ meta, products, entities, ...props }) {
   const dispatch = useDispatch();
   const prevR = useRef({
+    page: meta.page,
     r: null,
     indexs: []
   });
+
+  useEffect(() => {
+    if (meta.page === 1 && prevR.current.r !== null) {
+      prevR.current = {
+        page: meta.page,
+        r: null,
+        indexs: []
+      }
+    }
+  }, [meta, prevR])
 
   const onFetchMore = useCallback(done => {
     const newMeta = {
@@ -61,7 +72,7 @@ function ProductsGrid({ meta, products, entities, ...props }) {
         </div>
       }
       {products.map((product, index) => (
-        <React.Fragment key={product.id}>
+        <React.Fragment key={index}>
           <Product key={index} product={product} />
           {
             (index + 1) % 20 === 0 && index > 0 ? <Ad index={index} r={getAd(index)} /> : null

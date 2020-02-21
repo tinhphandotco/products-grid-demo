@@ -18,7 +18,7 @@ function Fetcher({ parentId, loading, onFetchMore, shouldFetchMore, stopBanner }
     const el = document.getElementById(parentId);
     const isTouchBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 1;
 
-    if (isTouchBottom && isFetching === false && shouldFetchMore) {
+    if (isTouchBottom && isFetching === false && shouldFetchMore && el.scrollTop > 0) {
       onFetching();
     }
   }, [isFetching, shouldFetchMore, onFetching, parentId]);
